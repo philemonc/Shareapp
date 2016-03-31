@@ -87,8 +87,10 @@
 	  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 	</ul>
 	<div class="text-left">
-		<a href="borrowed.php" class = "btn btn-primary" role="button">Borrowed Items</a>
-		<a href="bidding.php" class= "btn btn-primary" role="button">Bidding Page</a>
+		<a href="borrowed.php" class="btn btn-primary" role="button">Borrowed Items</a>
+		<a href="createItem.php" class="btn btn-primary" role="button">Create New Item</a>
+		<a href="bidding.php" class="btn btn-primary" role="button">Bidding Page</a>
+		<a href="administrator.php" class = "btn btn-primary" role="button">Administrator</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>
 	                
