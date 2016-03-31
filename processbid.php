@@ -22,6 +22,8 @@
         $_SESSION['bidarray'] = $bid;
     	header("Location: finalbid.php");
     }
+
+    
    	pg_close($dbconn);
 
 ?> 

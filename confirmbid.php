@@ -20,7 +20,7 @@
 				   <div class="row">
 
 			       <section class="content">
-			       <h1>Confirm your bids</h1>
+			       <h1><b>Confirm your bids</b></h1>
 
 			       <div class="container">
 					<div class="row">		
@@ -38,8 +38,9 @@
 	        $result = pg_query($query); 
 
 			//fetch all selected items
+			
 			while ($row = pg_fetch_assoc($result)) {
-				echo '<tr data-status="'.$row["type"].'">
+					echo '<tr data-status="'.$row["type"].'">
 										<td>
 											<input type="text" name="bid[]" value="" maxlength="50" style="width:50px;">
 										</td>
@@ -53,12 +54,16 @@
 												<a href="#" class="pull-left">
 													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right '.$row["type"].'">('.$row["type"].')</span></h4>';
-				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';	
+					echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
+					echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right '.$row["type"].'">('.$row["type"].')</span></h4>';
+					echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';	
 				}
-			} 
+			}
+
+
+
 			pg_free_result($result);
+
 				echo '</tbody></table>';
 			
 		?>

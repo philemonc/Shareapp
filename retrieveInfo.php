@@ -22,7 +22,7 @@
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
 			$user = current(pg_fetch_row(pg_query($dbconn, "SELECT name FROM member WHERE email = '{$_SESSION['email']}'")));
-			echo '<h1> Welcome ' . $user. '</h1>';
+			echo '<h1><b> Welcome ' . $user. ' !</b></h1>';
 		?>
 		 <h4> Your Items </h4>
 	        <div class="table-responsive">
@@ -131,8 +131,9 @@
 	<div class="text-left">
 		<a href="borrowed.php" class="btn btn-primary" role="button">Borrowed Items</a>
 		<a href="createItem.php" class="btn btn-primary" role="button">Create New Item</a>
-		<a href="bidding.php" class="btn btn-primary" role="button">Bidding Page</a>
-		<a href="administrator.php" class = "btn btn-primary" role="button">Administrator</a>
+		<a href="bidding.php" class="btn btn-success" role="button">Bidding Page</a>
+		<a href="viewbids.php" class="btn btn-info" role="button">View Bids</a>
+		<a href="administrator.php" class = "btn btn-warning" role="button">Administrator</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>
 	                

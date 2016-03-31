@@ -22,7 +22,7 @@
 				   <div class="row">
 
 			       <section class="content">
-			       <h1>Confirmed Bids</h1>
+			       <h1><b>Confirmed Bids<b></h1>
 
 			       <div class="container">
 					<div class="row">		
@@ -36,7 +36,7 @@
 			echo '<form id="confirmbid-form" action="processbid.php" method="post" role="form" style="display: block;">';
 
 			//key is the itemid, value is the bid
-			foreach ($idtobids as $key => $value) {
+		foreach ($idtobids as $key => $value) {
 	        
 	        //email of person bidding
 	        $fetchmember = "SELECT m.name FROM member m WHERE m.email = '$email'";
@@ -61,6 +61,7 @@
 	        WHERE i.itemid = '$key' AND i.itemid = b.itemid AND m.email = '$email' AND b.email = m.email"; 
 	        $result = pg_query($query); 
 			//fetch all selected items
+			if ($result > 0) {
 			while ($row = pg_fetch_assoc($result)) {
 				echo '<tr data-status="'.$row["type"].'">
 										<td>
@@ -80,9 +81,12 @@
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right '.$row["type"].'">('.$row["type"].')</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';	
 				}
-			} 
-			pg_free_result($result);
-				echo '</tbody></table>';
+			} else {
+				echo '<h1>You cannot bid for this item</h1>';
+			}
+		} 
+		pg_free_result($result);
+		echo '</tbody></table>';
 		?>
 				</form>
 				</div>
@@ -92,6 +96,7 @@
 					<p>	
 						<a href="retrieveinfo.php" class="btn btn-primary" role="button">Your Shared Items</a>
 						<a href="borrowed.php" class="btn btn-primary" role="button">Your Borrowed Items</a>
+						<a href="viewbids.php" class="btn btn-success" role="button">Your Bids</a>
 						<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 					</p>
 				</div>

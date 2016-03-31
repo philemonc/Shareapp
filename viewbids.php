@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<header>
-		<title>Bidding Page</title>
+		<title>View Bids</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
@@ -12,23 +12,9 @@
 				   <div class="row">
 
 			       <section class="content">
-			       <h1><b>Items up for bidding</b></h1>
+			       <h1><b>View Bids</b></h1>
 
-			       <div class="container">
-					<div class="row">		
-           				<div id="custom-search-input">
-           					<form id="custom-search-input" method = "post">
-                           	<div class="input-group col-md-6 col-md-offset-3">
-                                <input type="text" class="search-query form-control" placeholder="Search" name = "search"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button" name="search-submit">
-                                        <span class=" glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                            </form>
-                         </div>
-                    </div>
+			       
 				    <br>
 			        <div class="col-md-8 col-md-offset-2">
 				    <div class="panel panel-default">
@@ -50,46 +36,26 @@
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			
 			session_start();
+			$email = $_SESSION['email'];
 
-
-	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances'"; 
-	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools'";
-	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures'";
-	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books'";
+			$queryappliances = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        FROM item i, member m, bidding b 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances'"; 
+	        $querytools = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        FROM item i, member m, bidding b 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools'"; 
+	        $queryfurnitures = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        FROM item i, member m, bidding b 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'"; 
+	        $querybooks = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        FROM item i, member m, bidding b 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'"; 
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 
 	        $result_furnitures = pg_query($queryfurnitures); 
 	        $result_books = pg_query($querybooks); 
-	        /*
-			$search = '';
-			if(isset($_POST['search-submit']) && !empty($_POST['search'])) {
-				$search = pg_escape_string($_POST['search']);
-				$superquery = "SELECT i.type, i.itemname, i.availabledate, i.description FROM item i WHERE  i.itemname LIKE '%" . $search . "%'";
-				$superresult = pg_query($superquery);
-				header("Location: bidding.php");
-
-				while ($superrow = pg_fetch_assoc($superresult)) {
-				echo '<tr data-status="'.$row["type"].'">
-										<td>
-  												<input name="checkbox[]"  type="checkbox" value="'.$row["itemid"].'">
-										</td>
-										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
-										</td>
-										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
-				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
-				} 
-			} */
-
+	        
 			//start of form
 			echo '<form id="bid-form" action="processbid.php" method="post" role="form" style="display: block;">';
 			
@@ -97,14 +63,10 @@
 			while ($row = pg_fetch_assoc($result_tools)) {
 				echo '<tr data-status="tools">
 										<td>
-											
-  												<input name="checkbox[]"  type="checkbox" value="'.$row["itemid"].'">
-  										
+  												<button type = "button" class = "btn btn-success">Successful</button>
 										</td>
 										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
+											<p><b>Bid: '.$row['feeamount'].'</b></p>
 										</td>
 										<td>
 											<div class="media">
@@ -120,14 +82,13 @@
 				echo '<tr data-status="appliances">
 										<td>
 											
-  												<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
+  												<button type = "button" class = "btn btn-success">Successful</button>
   											
 										</td>
 										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
+											<p><b>Bid: '.$row['feeamount'].'</b></p>
 										</td>
+										
 										<td>
 											<div class="media">
 												<a href="#" class="pull-left">
@@ -144,14 +105,13 @@
 				echo '<tr data-status="furnitures">
 										<td>
 											
-  												<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
+  												<button type = "button" class = "btn btn-success">Successful</button>
   											
 										</td>
 										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
+											<p><b>Bid: '.$row['feeamount'].'</b></p>
 										</td>
+										
 										<td>
 											<div class="media">
 												<a href="#" class="pull-left">
@@ -166,16 +126,16 @@
 			//fetch all book
 			while ($row = pg_fetch_assoc($result_books)) {
 				echo '<tr data-status="books">
+
 										<td>
 											
-  												<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
+  												<button type = "button" class = "btn btn-success">Successful</button>
   											
 										</td>
 										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
+											<p><b>Bid: '.$row['feeamount'].'</b></p>
 										</td>
+										
 									
 										<td>
 											<div class="media">
@@ -196,13 +156,6 @@
 			pg_free_result($result_appliances);
 			
 		?>
-				<div class="form-group">
-					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
-							<input type="submit" name="bid" id="bid" tabindex="4" class="form-control btn btn-bid" value="Bid">
-						</div>
-					</div>
-				</div>
 		</form> <!-- End of Form -->
 
 		</div>

@@ -27,7 +27,7 @@ session_start();
 						</div>
 						<hr>
 					</div>
-					<h1 align="center"><b>Share<b></h1>
+					<h1 align="center"><b>Shareapp<b></h1>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
