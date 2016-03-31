@@ -31,7 +31,7 @@
 					<input type="submit" name="user-enter" id="user-enter" class="form-control btn btn-success" value="Enter">
 				</div>
 			</form>
-			</div>'
+			</div>';
 			
 		if (isset($_POST['user-enter'])) {
 			$username = pg_escape_string($_POST['name']);

@@ -70,7 +70,7 @@
 			<div class="form-group">
 				<input type="submit" name="itemSubmit" id="itemSubmit" class="form-control btn btn-success" value="Submit">
 			</div>
-			</form>'
+			</form>';
 			
 		if (isset($_POST[Submit])) {
 			$itemName = $_POST['itemName'];
