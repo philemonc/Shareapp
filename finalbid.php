@@ -17,8 +17,6 @@
 			$chk =	$_SESSION['checkedboxes'];
 			var_dump($chk);
 
-			$chkboxAr = $_SESSION['bids'];
-			var_dump($chkboxAr);
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
 			echo ' <div class="container">

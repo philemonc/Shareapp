@@ -17,19 +17,21 @@
 			       <div class="container">
 					<div class="row">		
            				<div id="custom-search-input">
-                           <div class="input-group col-md-6 col-md-offset-3">
-                                <input type="text" class="  search-query form-control" placeholder="Search" />
+           					<form id="custom-search-input" method = "post">
+                           	<div class="input-group col-md-6 col-md-offset-3">
+                                <input type="text" class="search-query form-control" placeholder="Search" name = "search"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
+                                    <button class="btn btn-danger" type="button" name="search-submit">
                                         <span class=" glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
                             </div>
-						</div>
-					</div>
-				   <br>
-			       <div class="col-md-8 col-md-offset-2">
-				   <div class="panel panel-default">
+                            </form>
+                         </div>
+                    </div>
+				    <br>
+			        <div class="col-md-8 col-md-offset-2">
+				    <div class="panel panel-default">
 					  <div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
@@ -59,28 +61,18 @@
 	        $result_tools = pg_query($querytools); 
 	        $result_furnitures = pg_query($queryfurnitures); 
 	        $result_books = pg_query($querybooks); 
-
-			/*$search = '';
-			if(isset($_POST['search-submit'])) {
+	        /*
+			$search = '';
+			if(isset($_POST['search-submit']) && !empty($_POST['search'])) {
 				$search = pg_escape_string($_POST['search']);
-				$superquery = "SELECT i.itemname, i.availabledate, i.description FROM item i WHERE  i.itemname LIKE '%" . $search . "%'";
+				$superquery = "SELECT i.type, i.itemname, i.availabledate, i.description FROM item i WHERE  i.itemname LIKE '%" . $search . "%'";
 				$superresult = pg_query($superquery);
+				header("Location: bidding.php");
 
 				while ($superrow = pg_fetch_assoc($superresult)) {
-				echo '<tr data-status="tools">
+				echo '<tr data-status="'.$row["type"].'">
 										<td>
-											<form action="processbid.php" method="post">
-  												<input name="'.$row["itemid"].'" type="checkbox" value="'.$row["itemid"].'">
-  											</form>';
-
-
-/*
-											<form class = "chkbox" role = "form" action = "processbid.php" method = "post">
-											<div class="ckbox">
-												<input type="checkbox" name="checkbox'.$row["itemid"].'" value="yes" id="checkbox'.$row["itemid"].'">
-												<label for="checkbox'.$row["itemid"].'"></label>
-											</div> 
-											</form> 
+  												<input name="checkbox[]"  type="checkbox" value="'.$row["itemid"].'">
 										</td>
 										<td>
 											<a href="javascript:;" class="star">
@@ -96,8 +88,9 @@
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
 				} 
-			}*/
+			} */
 
+			//start of form
 			echo '<form id="bid-form" action="processbid.php" method="post" role="form" style="display: block;">';
 			
 			//fetch all tools
@@ -210,9 +203,9 @@
 						</div>
 					</div>
 				</div>
-		</form>
+		</form> <!-- End of Form -->
 
-			</div>
+		</div>
 		</div>
 
 	</div>

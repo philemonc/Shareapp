@@ -6,6 +6,7 @@
 	$checkboxArray = $_SESSION['chkboxArr'];
 	$checkfinal = array();
 	
+    STATIC $checked = array();
 	//handle checkbox lists
 	if(isset($_POST['bid'])) {
         $checked = $_POST['checkbox'];
@@ -13,6 +14,7 @@
         header("Location: confirmbid.php");
     }
     
+    STATIC $bid = array();
     //handle list of bids
     if(isset($_POST['confirmbid'])) {
     	//array of all the bids
