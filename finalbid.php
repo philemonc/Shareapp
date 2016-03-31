@@ -9,15 +9,14 @@
 	<body>
 		<?php 
 			include_once 'includes/dbconnect.php';
+			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			session_start();
 			
 			$bidd = $_SESSION['bidarray'];
-			var_dump($bidd);
-
-			$chk =	$_SESSION['checkedboxes'];
-			var_dump($chk);
-
-			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
+			$chk =	$_SESSION['finbid'];
+			$idtobids = array_combine($chk, $bidd);
+			$email = $_SESSION['email'];
+			
 
 			echo ' <div class="container">
 				   <div class="row">
@@ -36,24 +35,36 @@
 			
 			echo '<form id="confirmbid-form" action="processbid.php" method="post" role="form" style="display: block;">';
 
-			foreach ($chkboxAr as $value) {
-	        /*
-	        $updatequery = "INSERT INTO bidding (name, email, feeamount, itemid, itemname, datetime)
-	        VALUES (SELECT m.name, m.email, '$value', i.itemid, i.itemname, now() as i.datetime
-	        FROM item i, member m 
-	        WHERE i.itemid = '$value' AND m.email = i.email AND m.email = '.$_SESSION['email'].)'"; 
-	        $resultupdate = pg_query($updatequery);*/
-	        $email = $_SESSION['email'];
-	        $query = "SELECT i.itemid, i.itemname, i.availabledate, i.description, i.type 
-	        FROM item i, member m 
-	        WHERE i.itemid = '$value' AND m.email = i.email AND m.email = '$email'"; 
+			//key is the itemid, value is the bid
+			foreach ($idtobids as $key => $value) {
+	        
+	        //email of person bidding
+	        $fetchmember = "SELECT m.name FROM member m WHERE m.email = '$email'";
+	        $member = pg_query($fetchmember);
+	        $rowmember = pg_fetch_assoc($member);
+	        $name = $rowmember['name'];
+	        
+	        
+	        //item person is bidding
+	        $fetchitem = "SELECT i.itemname, i.itemid FROM item i WHERE i.itemid = '$key'";
+	        $item = pg_query($fetchitem);
+	        $rowitem = pg_fetch_assoc($item);
+	        $itemname = $rowitem['itemname'];
+	        $itemid = $rowitem['itemid'];
 
+	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now())";	     
+	        $update = pg_query($updatequery);
+	       
+	        
+	        $query = "SELECT b.feeamount, i.itemname, i.availabledate, i.description, i.type 
+	        FROM item i, member m, bidding b 
+	        WHERE i.itemid = '$key' AND i.itemid = b.itemid AND m.email = '$email' AND b.email = m.email"; 
 	        $result = pg_query($query); 
 			//fetch all selected items
 			while ($row = pg_fetch_assoc($result)) {
 				echo '<tr data-status="'.$row["type"].'">
 										<td>
-											<input type="text" name="bid[]" value="" maxlength="50" style="width:50px;">
+											<p><b>Your Bid: '.$row['feeamount'].'</b></p>
 										</td>
 										<td>
 											<a href="javascript:;" class="star">

@@ -10,8 +10,10 @@
 		<?php 
 			include_once 'includes/dbconnect.php';
 			session_start();
-
+			$passtobid = $_SESSION['checkedboxes'];
 			$chkboxAr = $_SESSION['checkedboxes'];
+			$_SESSION['finbid'] = $passtobid;
+			
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
 			echo ' <div class="container">
