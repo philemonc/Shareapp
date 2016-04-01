@@ -132,6 +132,7 @@
 		<a href="borrowed.php" class="btn btn-primary" role="button">Borrowed Items</a>
 		<a href="createItem.php" class="btn btn-primary" role="button">Create New Item</a>
 		<a href="bidding.php" class="btn btn-success" role="button">Bidding Page</a>
+		<a href="selectbids.php" class="btn btn-info" role="button">Select Bids</a>
 		<a href="viewbids.php" class="btn btn-info" role="button">View Bids</a>
 		<a href="administrator.php" class = "btn btn-warning" role="button">Administrator</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>

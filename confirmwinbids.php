@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<header>
-		<title>Confirmed Bids</title>
+		<title>Selected Winning Bids</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
@@ -9,20 +9,15 @@
 	<body>
 		<?php 
 			include_once 'includes/dbconnect.php';
-			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			session_start();
-			
-			$bidd = $_SESSION['bidarray'];
-			$chk =	$_SESSION['finbid'];
-			$idtobids = array_combine($chk, $bidd);
-			$email = $_SESSION['email'];
-			
+			$chkboxAr = $_SESSION['checkedwin'];
+			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
 			echo ' <div class="container">
 				   <div class="row">
 
 			       <section class="content">
-			       <h1>Confirmed Bids</h1>
+			       <h1><b>Selected Winning Bids</b></h1>
 
 			       <div class="container">
 					<div class="row">		
@@ -34,37 +29,22 @@
 						<tbody>';
 			
 			echo '<form id="confirmbid-form" action="processbid.php" method="post" role="form" style="display: block;">';
-			
-			//key is the itemid, value is the bid
-			foreach ($idtobids as $key => $value) {
-	        
-	        //email of person bidding
-	        $fetchmember = "SELECT m.name FROM member m WHERE m.email = '$email'";
-	        $member = pg_query($fetchmember);
-	        $rowmember = pg_fetch_assoc($member);
-	        $name = $rowmember['name'];
-	        
-	        
-	        //item person is bidding
-	        $fetchitem = "SELECT i.itemname, i.itemid FROM item i WHERE i.itemid = '$key'";
-	        $item = pg_query($fetchitem);
-	        $rowitem = pg_fetch_assoc($item);
-	        $itemname = $rowitem['itemname'];
-	        $itemid = $rowitem['itemid'];
 
-	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now())";	     
-	        $update = pg_query($updatequery);
-	       
-	        
-	        $query = "SELECT b.feeamount, i.itemname, i.availabledate, i.description, i.type 
-	        FROM item i, member m, bidding b 
-	        WHERE i.itemid = '$key' AND i.itemid = b.itemid AND m.email = '$email' AND b.email = m.email"; 
+			
+        
+        	//first_value is bidderemail, second_value is itemid
+		foreach ($chkboxAr as $first_value => $tmpArray) {
+			foreach($tmpArray as $second_value) {
+
+	        $query = "SELECT DISTINCT b.name, b.itemname, i.type FROM bidding b, item i WHERE i.itemid = '$second_value' AND b.itemid = i.itemid AND b.email = '$first_value'"; 
 	        $result = pg_query($query); 
+
 			//fetch all selected items
+			
 			while ($row = pg_fetch_assoc($result)) {
-				echo '<tr data-status="'.$row["type"].'">
+					echo '<tr data-status="'.$row["type"].'">
 										<td>
-											<p><b>Your Bid: '.$row['feeamount'].'</b></p>
+  												<button type = "button" class = "btn btn-success">Successful</button>
 										</td>
 										<td>
 											<a href="javascript:;" class="star">
@@ -76,15 +56,22 @@
 												<a href="#" class="pull-left">
 													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right '.$row["type"].'">('.$row["type"].')</span></h4>';
-				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';	
+					echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
+					echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right '.$row["type"].'">('.$row["type"].')</span></h4>';
+					echo '<p class="summary">Bidder: '.$row["name"].'</p></div></div></td></tr>';	
 				}
-			} 
+			}
+		}
+
+
+
 			pg_free_result($result);
+
 				echo '</tbody></table>';
+			
 		?>
-				</form>
+				
+			</form>
 				</div>
 				</div>
 				</div>
@@ -92,7 +79,6 @@
 					<p>	
 						<a href="retrieveinfo.php" class="btn btn-primary" role="button">Your Shared Items</a>
 						<a href="borrowed.php" class="btn btn-primary" role="button">Your Borrowed Items</a>
-						<a href="viewbids.php" class="btn btn-success" role="button">View Bids</a>
 						<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 					</p>
 				</div>

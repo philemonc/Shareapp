@@ -23,6 +23,14 @@
     	header("Location: finalbid.php");
     }
 
+    STATIC $checkedwin = array();
+    $tmpArray = array();
+    if(isset($_POST['winbid'])) {
+        $checkedwin = $_POST['winbids'];
+        $_SESSION['checkedwin'] = $checkedwin;
+        header("Location: confirmwinbids.php");
+    }
+
     
    	pg_close($dbconn);
 
