@@ -92,7 +92,7 @@
 			$itemID = mt_rand();
 		
 		$query = "INSERT INTO item (email, type, itemID, feeFlag, itemName, pickupLocation, returnLocation, availableDate, description, availabilityFlag)
-					VALUES ('$email', '$itemType', '$itemID', '$feeFlag', '$itemName', '$pickUp', '$retL', '$today', '$itemDesc', 0)";
+					VALUES ('$email', '$itemType', '$itemID', '$feeFlag', '$itemName', '$pickUp', '$retL', '$today', '$itemDesc', 1)";
 
 		pg_query($dbconn, $query);
 		
