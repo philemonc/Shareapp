@@ -79,7 +79,7 @@
 							</div>
 						</form>
 						<div class="text-left">
-							<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
+							<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 							<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 						</div>
 					</div>
