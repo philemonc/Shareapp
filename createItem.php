@@ -32,7 +32,7 @@
 			</div>
 			</form>
 				';*/
-		echo '<h2>Create A New Item</h2>
+		echo '<h2 align="center"><b>Create A New Item<b></h2>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
@@ -78,6 +78,10 @@
 								<input type="submit" name="itemSubmit" id="itemSubmit" class="form-control btn btn-success" value="Submit">
 							</div>
 						</form>
+						<div class="text-left">
+							<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
+							<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
+						</div>
 					</div>
 				</div>
 			</div>';
@@ -105,9 +109,5 @@
 
 		$result = pg_query($dbconn, $query);
 	?>
-	<div class="text-left">
-		<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
-		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
-	</div>
 			
 </body>
