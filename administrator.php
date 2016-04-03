@@ -87,7 +87,7 @@
 		<div class="col-sm-4">
 			<div class="well">
 			<?php
-			$query = "SELECT COUNT(*) as total FROM member";
+			$query = "SELECT COUNT(*) FROM member";
 			$user = pg_query($dbconn, $query);
 			$userd = pg_result($user, 0);
 			echo '<h3>USERS</h3>';
