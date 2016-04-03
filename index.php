@@ -6,10 +6,15 @@ session_start();
 
 <html>
 <head>
-	<title> Share App </title>
+	<title> SmartCrate </title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<style>
+		h3 {color: #6495ed;
+			font-family: Segoe UI Light;
+			display: inline;}
+	</style>
 </head>
 <body>
 <div class="container">
@@ -27,7 +32,10 @@ session_start();
 						</div>
 						<hr>
 					</div>
-					<h1 align="center"><b>Shareapp<b></h1>
+					<div class="row" align="center">
+						<img src="box.jpg" alt="symbol" style="width:120px; height:120px;">
+						<h3><b>SmartCrate<b></h3>
+					</div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
