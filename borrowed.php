@@ -12,6 +12,11 @@
 		<title>Borrowed Items</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<style>
+			h2 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</head>
 	<body>
 	<?php 
@@ -28,7 +33,7 @@
 			<div class="container">
 			<div class="row">  
 	        <div class="col-md-12">
-	        <h4>Your Borrowed Items</h4>
+	        <h2>Your Borrowed Items</h2>
 	        <div class="table-responsive">
 
 	                

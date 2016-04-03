@@ -12,6 +12,11 @@
 	<title>Adminstrator</title>
 	<link rel="stylesheet" type="text.css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text.css" href="css/style.css">
+	<style>
+		h2 {color: #6495ed;
+			font-family: Segoe UI Light;
+			display: inline;}
+	</style>
 </head>
 <body>
 <?php
@@ -19,6 +24,7 @@
 		$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 		
 		echo ' 
+			<h2 align="center">Administrator</h2>
 			<div class="container">
 			<form class="form-inline" role="form" method="post">
 				<div class="form-group">
@@ -36,7 +42,7 @@
 		if (isset($_POST['user-enter'])) {
 			$username = pg_escape_string($_POST['name']);
 			$email = pg_escape_string($_POST['email']);
-			$query = "SELECT name, email FROM member WHERE name='$username' OR email='$email'";
+			$query = "SELECT name, email FROM member WHERE name LIKE '%$username%' OR email LIKE '%$email%'";
 			$result = pg_query($dbconn, $query);			
 		}
 		$i = 0;

@@ -12,6 +12,11 @@
 	<title>Create Item</title>
 	<link rel="stylesheet" type="text.css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text.css" href="css/style.css">
+	<style>
+		h2 {color: #6495ed;
+			font-family: Segoe UI Light;
+			display: inline;}
+	</style>
 </head>
 <body>
 	<?php

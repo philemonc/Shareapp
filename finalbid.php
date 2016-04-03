@@ -5,6 +5,11 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
+		<style>
+			h2 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</header>
 	<body>
 		<?php 
@@ -22,7 +27,7 @@
 				   <div class="row">
 
 			       <section class="content">
-			       <h1>Confirmed Bids</h1>
+			       <h2>Confirmed Bids</h2>
 
 			       <div class="container">
 					<div class="row">		

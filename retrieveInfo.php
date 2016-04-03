@@ -12,6 +12,11 @@
 		<title>Retrieve Item Information</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<style>
+			h2 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</head>
 	<body>
 		<div class="container">
@@ -24,7 +29,7 @@
 			$user = current(pg_fetch_row(pg_query($dbconn, "SELECT name FROM member WHERE email = '{$_SESSION['email']}'")));
 			echo '<h1><b> Welcome ' . $user. ' !</b></h1>';
 		?>
-		 <h4> Your Items </h4>
+		 <h2> Your Items </h2>
 	        <div class="table-responsive">
 				<table id="mytable" class="table table-bordred table-striped">
 					<thead>
@@ -76,7 +81,7 @@
 			<div class="container">
 			<div class="row">  
 	        <div class="col-md-12">
-	        <h4>Your Shared Items</h4>
+	        <h2>Your Shared Items</h2>
 	        <div class="table-responsive">
 
 	                

@@ -6,13 +6,18 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css">
+		<style>
+			h2 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</header>
 	<body>
 		<div class="container">
 				   <div class="row">
 
 			       <section class="content">
-			       <h1><b>Items up for bidding</b></h1>
+			       <h2><b>Items up for bidding</b></h2>
 
 			       <div class="container">
 					<div class="row">		

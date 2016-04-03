@@ -11,7 +11,7 @@ session_start();
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	<style>
-		h3 {color: #6495ed;
+		h2 {color: #6495ed;
 			font-family: Segoe UI Light;
 			display: inline;}
 	</style>
@@ -34,7 +34,7 @@ session_start();
 					</div>
 					<div class="row" align="center">
 						<img src="box.jpg" alt="symbol" style="width:120px; height:120px;">
-						<h3><b>SmartCrate<b></h3>
+						<h2><b>SmartCrate<b></h2>
 					</div>
 					<div class="panel-body">
 						<div class="row">
