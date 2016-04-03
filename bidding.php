@@ -51,11 +51,11 @@
 			
 			session_start();
 
-
-	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances'"; 
-	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools'";
-	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures'";
-	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books'";
+			//1 means available, 0 means not available
+	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances' AND availabilityflag = '1'"; 
+	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools' AND availabilityflag = '1'";
+	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures' AND availabilityflag = '1'";
+	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books' AND availabilityflag = '1'";
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 

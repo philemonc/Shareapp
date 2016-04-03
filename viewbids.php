@@ -40,16 +40,16 @@
 
 			$queryappliances = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances'"; 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances' AND b.successbid = '1'"; 
 	        $querytools = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools'"; 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools' AND b.successbid = '1'"; 
 	        $queryfurnitures = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'"; 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'AND b.successbid = '1'"; 
 	        $querybooks = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'"; 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'AND b.successbid = '1'"; 
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 

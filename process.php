@@ -30,8 +30,8 @@ if(isset($_POST['login-submit'])) {
     $result = pg_query($query);
     $rst = pg_num_rows($result);
    if ($rst > 0)  {
+   	$_SESSION['email'] = $email; 
    	header("Location: retrieveinfo.php"); 
-	$_SESSION['email'] = $email; 
    }
    else 
      //echo '<html><header><title></title></header>'
@@ -45,7 +45,7 @@ if(isset($_POST['login-submit'])) {
 
 if(isset($_POST['register-submit'])) {
 	$username = pg_escape_string($_POST['username']);
-	$email = pg_escape_string($_POST['email']);
+	$email = pg_escape_string($_POST['email']); 
 	$password = pg_escape_string($_POST['password']);
 	$confirmpassword= pg_escape_string($_POST['confirm-password']);	
 	$address = pg_escape_string($_POST['address']);
@@ -92,8 +92,7 @@ if(isset($_POST['register-submit'])) {
 	if ($password == $confirmpassword) {
 		$result = pg_query("INSERT INTO member VALUES('$username', '$email', '$password', '$address', '$contact', '".$_POST['adminflag']."')");
 	} 
-	
-	header("Location: retrieveinfo.php"); 
+	header("Location: index.php"); 
    	pg_close($dbconn);
 }
 if(isset($_POST['edit-submit'])) {

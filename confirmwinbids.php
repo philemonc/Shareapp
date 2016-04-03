@@ -12,7 +12,7 @@
 			session_start();
 			$chkboxAr = $_SESSION['checkedwin'];
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
-
+			var_dump($chkboxAr);
 			echo ' <div class="container">
 				   <div class="row">
 
@@ -39,6 +39,9 @@
 	        $query = "SELECT DISTINCT b.name, b.itemname, i.type FROM bidding b, item i WHERE i.itemid = '$second_value' AND b.itemid = i.itemid AND b.email = '$first_value'"; 
 	        $result = pg_query($query); 
 
+	        //successbit = 1 means successful, 0 means unsuccessful
+	        $updatequery = "UPDATE bidding SET successbid = '1' WHERE email ='$first_value' AND itemid = '$second_value'";
+	        $resultupdate = pg_query($updatequery);
 			//fetch all selected items
 			
 			while ($row = pg_fetch_assoc($result)) {
@@ -62,12 +65,8 @@
 				}
 			}
 		}
-
-
-
-			pg_free_result($result);
-
-				echo '</tbody></table>';
+		pg_free_result($result);
+		echo '</tbody></table>';
 			
 		?>
 				

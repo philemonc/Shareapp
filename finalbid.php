@@ -52,7 +52,7 @@
 	        $itemname = $rowitem['itemname'];
 	        $itemid = $rowitem['itemid'];
 
-	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now())";	     
+	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now(), '0')";	     
 	        $update = pg_query($updatequery);
 	       
 	        
