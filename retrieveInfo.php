@@ -41,7 +41,7 @@
 					</thead>
 					<?php
 						$email = $_SESSION['email'];
-						$query = "SELECT type, id, fee, name, pickup, return, description FROM item WHERE email='$email'";
+						$query = "SELECT type, id, fee, name, pickup, return, description FROM item WHERE email='$email' AND availabilityFlag = '1'";
 						$result = pg_query($query);
 						while ($row = pg_fetch_assoc($result)) {
 							echo '<tr>';

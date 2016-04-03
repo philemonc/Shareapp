@@ -36,7 +36,7 @@
 		if (isset($_POST['user-enter'])) {
 			$username = pg_escape_string($_POST['name']);
 			$email = pg_escape_string($_POST['email']);
-			$query = "SELECT name, email FROM member WHERE name='$username' AND email='$email'";
+			$query = "SELECT name, email FROM member WHERE name='$username' OR email='$email'";
 			$result = pg_query($dbconn, $query);			
 		}
 		$i = 0;
@@ -46,7 +46,7 @@
 			<div class="container">
 			<div class="row">  
 	        <div class="col-md-12">
-	        <h4>Your Shared Items</h4>
+	        <h4>Users</h4>
 	        <div class="table-responsive">
 
 	                
@@ -56,7 +56,7 @@
 	                   
 	                   <th><input type="checkbox" id="checkall" /></th>
 	                   <th>Username</th>
-	                   <th>Email></th>
+	                   <th>Email</th>
 	                   <th>Delete</th>
 	                   </thead>
 	    			   <tbody>';
@@ -84,38 +84,42 @@
 ?>
 
 	<div class="row">
-	<div class="span12">
-		<div class="row">
-		<div class="span4">
+		<div class="col-sm-4">
 			<div class="well">
 			<?php
-			$query = "SELECT COUNT(*) FROM members WHERE adminflag = 0";
-			$result = pg_query($dbconn, $query);
+			$query = "SELECT COUNT(*) as total FROM member";
+			$user = pg_query($dbconn, $query);
+			$userd = pg_result($user, 0);
 			echo '<h3>USERS</h3>';
-			echo '<h2>' . $result . '</h2>';
-			pg_free_result($result);
+			echo '<h2>' . $userd . '</h2>';
+			pg_free_result($user);
+			pg_free_result($userd);
 			?>
 			</div>
 		</div>
-		<div class="span4">
+		<div class="col-sm-4">
 			<div class="well">
 			<?php
 			$query = "SELECT COUNT(*) FROM item";
-			$result = pg_query($dbconn, $query);
+			$item = pg_query($dbconn, $query);
+			$itemd = pg_result($item, 0);
 			echo '<h3>Total Items</h3>';
-			echo '<h2>' . $result . '</h2>';
-			pg_free_result($result);
+			echo '<h2>' . $itemd . '</h2>';
+			pg_free_result($item);
+			pg_free_result($itemd);
 			?>
 			</div>
 		</div>
-		<div class="span4">
+		<div class="col-sm-4">
 			<div class="well">
 			<?php
 			$query = "SELECT COUNT(*) FROM loan";
-			$result = pg_query($query);
+			$loan = pg_query($query);
+			$loand = pg_result($loan, 0);
 			echo '<h3>Transactions</h3>';
-			echo '<h2>' . $result . '</h2>';
-			pg_free_result($result);
+			echo '<h2>' . $loand . '</h2>';
+			pg_free_result($loan);
+			pg_free_result($loand);
 			?>
 			</div>
 		</div>
@@ -134,6 +138,7 @@
 	  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 	</ul>
 	<div class="text-left">
+		<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>
 	

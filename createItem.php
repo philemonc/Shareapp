@@ -38,7 +38,8 @@
 				<input type="text" name="itemName" id="itemName" class="form-control" placeholder="Item Name" value="">
 			</div>
 			<div class="form-group row">
-				<label> Type of Item: </label>
+			<div class="col-sm-4">
+				<label>Item Type:</label>
 				<select name="itemType" required>
 					<option value="appliances">Appliance</option>
 					<option value="tools">Tool</option>
@@ -46,15 +47,18 @@
 					<option value="books">Books</option>
 					<option value="others">Others</option>
 				</select>
+			</div>
+			<div class="col-sm-4">
 				<label> Need to Pay: </label>
 				<select name="fee" required>
 					<option value=1>Yes</option>
 					<option value=0>No</option>
 				</select>
 			</div>
+			</div>
 			<div class="form-group">
-				<label for="desc">Description</label>
-				<textarea name="itemDesc" id="itemDesc" form="createForm" maxlength="100" placeholder="No more than 100 characters"></textarea>
+				<p>Description</p>
+				<textarea rows="4" cols="50" name="itemDesc" id="itemDesc" form="createForm" placeholder="No more than 100 characters"></textarea>
 			</div>
 			<div class="form-group">
 				<label>Pick-Up Point</label>
@@ -72,31 +76,34 @@
 			</div>
 			</form>';
 			
-		if (isset($_POST[Submit])) {
+		if (isset($_POST['itemSubmit'])) {
 			$itemName = $_POST['itemName'];
 			$itemType = $_POST['itemType'];
 			$feeFlag = $_POST['fee'];
 			$itemDesc = $_POST['itemDesc'];
-			$itemImg = $_POST['imagefile'];
+			//$itemImg = $_POST['imagefile'];
 			$pickUp = $_POST['pickUp'];
 			$retL = $_POST['retL'];
 		}
 		
 		$itemID = mt_rand();
-		$today = getdate();
 		$email = $_SESSION['email'];
 		
-		$cquery = "SELECT * FROM item WHERE itemID = '$itemID'";
+		$cquery = "SELECT * FROM item WHERE itemid = '$itemID'";
 		
-		while (pg_query($dbconn, $cquery) = NULL) {
+		while (pg_query($dbconn, $cquery) == NULL) {
 			$itemID = mt_rand();
 		}
 		
-		$query = "INSERT INTO item (email, type, itemID, feeFlag, itemName, pickupLocation, returnLocation, availableDate, description, availabilityFlag)
-					VALUES ('$email', '$itemType', '$itemID', '$feeFlag', '$itemName', '$pickUp', '$retL', '$today', '$itemDesc', 1)";
+		$query = "INSERT INTO item VALUES ('$email','$itemType', '$itemID', '$feeFlag', '$itemName', '$pickUp', '$retL', now(), '$itemDesc', '1')";
 
-		pg_query($dbconn, $query);
+		$result = pg_query($dbconn, $query);
 		
-	?>	
+		var_dump($result);
+	?>
+	<div class="text-left">
+		<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
+		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
+	</div>
 			
 </body>
