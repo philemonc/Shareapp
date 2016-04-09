@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text.css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text.css" href="css/style.css">
 	<style>
-		h2 {color: #6495ed;
+		h1 {color: #6495ed;
 			font-family: Segoe UI Light;
 			display: inline;}
 	</style>
@@ -24,7 +24,10 @@
 		$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 		
 		echo ' 
-			<h2 align="center">Administrator</h2>
+			<div class="row" align="center">
+			<h1><b>Adminstrator</b></h1>
+			</div>
+			<br>
 			<div class="container">
 			<form class="form-inline" role="form" method="post">
 				<div class="form-group">
@@ -144,7 +147,7 @@
 	  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 	</ul>
 	<div class="text-left">
-		<a href="retrieveInfo.php" class="btn btn-success" role="button">Back to Main Page</a>
+		<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>
 	

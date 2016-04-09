@@ -5,11 +5,17 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
+		<style>
+			h2 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</header>
 	<body>
 		<?php 
 			include_once 'includes/dbconnect.php';
 			session_start();
+			$email = $_SESSION['email'];
 			$chkboxAr = $_SESSION['checkedwin'];
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			var_dump($chkboxAr);
@@ -32,18 +38,26 @@
 
 			
         
-        	//first_value is bidderemail, second_value is itemid
+        //first_value is bidderemail, second_value is itemid
 		foreach ($chkboxAr as $first_value => $tmpArray) {
 			foreach($tmpArray as $second_value) {
 
 	        $query = "SELECT DISTINCT b.name, b.itemname, i.type FROM bidding b, item i WHERE i.itemid = '$second_value' AND b.itemid = i.itemid AND b.email = '$first_value'"; 
 	        $result = pg_query($query); 
 
-	        //successbit = 1 means successful, 0 means unsuccessful
-	        $updatequery = "UPDATE bidding SET successbid = '1' WHERE email ='$first_value' AND itemid = '$second_value'";
+	        //successbid = 1 means successful, 0 means unsuccessful
+	        //pendingstatus = 1 means pending, 0 means not pending
+	        $updatequery = "UPDATE bidding SET successbid = '1', pendingstatus = '0' WHERE email ='$first_value' AND itemid = '$second_value'";
 	        $resultupdate = pg_query($updatequery);
-			//fetch all selected items
+
+	        $updateloan = "INSERT INTO loan VALUES ('$first_value','$email', '$second_value', now(), now() + interval '14' day)";
+	        $result_insertLoan = pg_query($updateloan);
+
+	        //set all the rest to successbid = 0, pending status = 0
+	        $update_pendStatus = "UPDATE bidding SET successbid = '0', pendingstatus = '0' WHERE email <> '$first_value' AND itemid = '$second_value'";
+	        $result_newPendStatus = pg_query($update_pendStatus);
 			
+			//fetch all selected items
 			while ($row = pg_fetch_assoc($result)) {
 					echo '<tr data-status="'.$row["type"].'">
 										<td>

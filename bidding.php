@@ -17,23 +17,10 @@
 				   <div class="row">
 
 			       <section class="content">
+			       <div class="row" align="center">
 			       <h2><b>Items up for bidding</b></h2>
-
+			       </div>
 			       <div class="container">
-					<div class="row">		
-           				<div id="custom-search-input">
-           					<form id="custom-search-input" method = "post">
-                           	<div class="input-group col-md-6 col-md-offset-3">
-                                <input type="text" class="search-query form-control" placeholder="Search" name = "search"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button" name="search-submit">
-                                        <span class=" glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                            </form>
-                         </div>
-                    </div>
 				    <br>
 			        <div class="col-md-8 col-md-offset-2">
 				    <div class="panel panel-default">
@@ -55,45 +42,18 @@
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			
 			session_start();
-
+			$email = $_SESSION['email'];
 			//1 means available, 0 means not available
-	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances' AND availabilityflag = '1'"; 
-	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools' AND availabilityflag = '1'";
-	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures' AND availabilityflag = '1'";
-	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books' AND availabilityflag = '1'";
+	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances' AND availablityflag = '1' AND i.email <> '$email'"; 
+	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools' AND availablityflag = '1' AND i.email <> '$email'";
+	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures' AND availablityflag = '1' AND i.email <> '$email'";
+	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books' AND availablityflag = '1' AND i.email <> '$email'";
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 
 	        $result_furnitures = pg_query($queryfurnitures); 
 	        $result_books = pg_query($querybooks); 
-	        /*
-			$search = '';
-			if(isset($_POST['search-submit']) && !empty($_POST['search'])) {
-				$search = pg_escape_string($_POST['search']);
-				$superquery = "SELECT i.type, i.itemname, i.availabledate, i.description FROM item i WHERE  i.itemname LIKE '%" . $search . "%'";
-				$superresult = pg_query($superquery);
-				header("Location: bidding.php");
-
-				while ($superrow = pg_fetch_assoc($superresult)) {
-				echo '<tr data-status="'.$row["type"].'">
-										<td>
-  												<input name="checkbox[]"  type="checkbox" value="'.$row["itemid"].'">
-										</td>
-										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
-										</td>
-										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
-				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
-				} 
-			} */
+	        
 
 			//start of form
 			echo '<form id="bid-form" action="processbid.php" method="post" role="form" style="display: block;">';
@@ -217,8 +177,7 @@
 				
 				<div class="text-left">
 					<p>	
-						<a href="retrieveinfo.php" class="btn btn-primary" role="button">Your Shared Items</a>
-						<a href="borrowed.php" class="btn btn-primary" role="button">Your Borrowed Items</a>
+						<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 						<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 					</p>
 				</div>

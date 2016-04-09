@@ -29,9 +29,7 @@
         $checkedwin = $_POST['winbids'];
         $_SESSION['checkedwin'] = $checkedwin;
         header("Location: confirmwinbids.php");
-    }
-
-    
+    }  
    	pg_close($dbconn);
 
 ?> 

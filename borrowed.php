@@ -23,7 +23,7 @@
 			include_once 'includes/dbconnect.php';
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
-	        $query = "SELECT m2.name, i.itemname, i.itemid, l.borrowdate, l.returndate, i.pickuplocation, i.returnlocation FROM loan l, item i, member m1, member m2 WHERE m1.email = '{$_SESSION['email']}' AND i.email = l.lender AND l.lender = m2.email AND m1.email = l.borrower"; 
+	        $query = "SELECT m2.name, i.itemname, l.borrowdate, l.returndate, i.pickuplocation, i.returnlocation FROM loan l, item i, member m1, member m2 WHERE m1.email = '{$_SESSION['email']}' AND i.email = l.lender AND l.lender = m2.email AND m1.email = l.borrower"; 
 	        
 	        $result = pg_query($query); 
 			$i = 0;
@@ -40,24 +40,19 @@
 	              <table id="mytable" class="table table-bordred table-striped">
 	                   
 	                   <thead>
-	                   
-	                   <th><input type="checkbox" id="checkall" /></th>
 	                   <th>Lender Name</th>
 	                   <th>Item Name</th>
-	                   <th>Item ID</th>
 	                   <th>Borrow Date</th>
 	                   <th>Return Date</th>
 	                   <th>Pick Up Location</th>
 	                   <th>Return Location</th>
-	                   <th>Edit</th>
-	                   <th>Delete</th>
 	                   </thead>
 	    			   <tbody>';
 
 			while ($row = pg_fetch_row($result)) 
 			{
 				echo '<tr>';
-				echo '<td><input type="checkbox" class="checkthis" /></td>';
+				
 				$count = count($row);
 				$y = 0;
 				while ($y < $count)
@@ -67,27 +62,14 @@
 					next($row);
 					$y = $y + 1;
 				}
-				echo '<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-	    			<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>';
 				echo '</tr>';
 				$i = $i + 1;
 			}
 			pg_free_result($result);
-				echo '</tbody></table>';
+			echo '</tbody></table>';
 	?>
-	<div class="clearfix"></div>
-	<ul class="pagination pull-right">
-	  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-	  <li class="active"><a href="#">1</a></li>
-	  <li><a href="#">2</a></li>
-	  <li><a href="#">3</a></li>
-	  <li><a href="#">4</a></li>
-	  <li><a href="#">5</a></li>
-	  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-	</ul>
 	<div class="text-left">
-		<a href="retrieveinfo.php" class = "btn btn-primary" role="button">Your Shared Items</a>
-		<a href="bidding.php" class= "btn btn-primary" role="button">Bidding Page</a>
+		<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>
 	                

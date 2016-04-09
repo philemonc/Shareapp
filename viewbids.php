@@ -6,15 +6,20 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css">
+		<style>
+			h1 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</header>
 	<body>
 		<div class="container">
 				   <div class="row">
 
 			       <section class="content">
+			       <div class="row" align="center">
 			       <h1><b>View Bids</b></h1>
-
-			       
+			       </div>
 				    <br>
 			        <div class="col-md-8 col-md-offset-2">
 				    <div class="panel panel-default">
@@ -38,18 +43,22 @@
 			session_start();
 			$email = $_SESSION['email'];
 
-			$queryappliances = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+
+			$queryappliances = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances' AND b.successbid = '1'"; 
-	        $querytools = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances'"; 
+
+	        $querytools = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools' AND b.successbid = '1'"; 
-	        $queryfurnitures = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools'"; 
+	        
+	        $queryfurnitures = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'AND b.successbid = '1'"; 
-	        $querybooks = "SELECT DISTINCT b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'"; 
+
+	        $querybooks = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
-	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'AND b.successbid = '1'"; 
+	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'"; 
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 
@@ -61,9 +70,22 @@
 			
 			//fetch all tools
 			while ($row = pg_fetch_assoc($result_tools)) {
+				$buttontype = "";
+				$message = "";
+				if ($row['successbid'] == 1 && $row['pendingstatus'] == 0) { 
+					//bid is successful
+					$message = "Successful";
+					$buttontype = "success";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 0) {
+					$message = "Unsuccessful";
+					$buttontype = "danger";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 1) {
+					$message = "Bid Pending";
+					$buttontype = "warning";
+				}
 				echo '<tr data-status="tools">
 										<td>
-  												<button type = "button" class = "btn btn-success">Successful</button>
+  											<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
 										</td>
 										<td>
 											<p><b>Bid: '.$row['feeamount'].'</b></p>
@@ -79,10 +101,23 @@
 				
 			} 
 			while ($row = pg_fetch_assoc($result_appliances)) {
+				$buttontype = "";
+				$message = "";
+				if ($row['successbid'] == 1 && $row['pendingstatus'] == 0) { 
+					//bid is successful
+					$message = "Successful";
+					$buttontype = "success";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 0) {
+					$message = "Unsuccessful";
+					$buttontype = "danger";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 1) {
+					$message = "Bid Pending";
+					$buttontype = "warning";
+				}
 				echo '<tr data-status="appliances">
 										<td>
-											
-  												<button type = "button" class = "btn btn-success">Successful</button>
+												<!-- Toggle button between success and failure -->
+  												<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
   											
 										</td>
 										<td>
@@ -102,10 +137,23 @@
 			}
 			//fetch all furnitures
 			while ($row = pg_fetch_assoc($result_furnitures)) {
+				$buttontype = "";
+				$message = "";
+				if ($row['successbid'] == 1 && $row['pendingstatus'] == 0) { 
+					//bid is successful
+					$message = "Successful";
+					$buttontype = "success";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 0) {
+					$message = "Unsuccessful";
+					$buttontype = "danger";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 1) {
+					$message = "Bid Pending";
+					$buttontype = "warning";
+				}
 				echo '<tr data-status="furnitures">
 										<td>
 											
-  												<button type = "button" class = "btn btn-success">Successful</button>
+  												<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
   											
 										</td>
 										<td>
@@ -125,11 +173,24 @@
 			}
 			//fetch all book
 			while ($row = pg_fetch_assoc($result_books)) {
+				$buttontype = "";
+				$message = "";
+				if ($row['successbid'] == 1 && $row['pendingstatus'] == 0) { 
+					//bid is successful
+					$message = "Successful";
+					$buttontype = "success";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 0) {
+					$message = "Unsuccessful";
+					$buttontype = "danger";
+				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 1) {
+					$message = "Bid Pending";
+					$buttontype = "warning";
+				}
 				echo '<tr data-status="books">
 
 										<td>
 											
-  												<button type = "button" class = "btn btn-success">Successful</button>
+  												<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
   											
 										</td>
 										<td>
@@ -146,9 +207,7 @@
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right books">(books)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
 			}
-
 			echo '</tbody></table>';
-
         
 			pg_free_result($result);
 			pg_free_result($result_books);
@@ -165,8 +224,7 @@
 				
 				<div class="text-left">
 					<p>	
-						<a href="retrieveinfo.php" class="btn btn-primary" role="button">Your Shared Items</a>
-						<a href="borrowed.php" class="btn btn-primary" role="button">Your Borrowed Items</a>
+						<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 						<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 					</p>
 				</div>

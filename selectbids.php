@@ -6,30 +6,22 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css">
+		<style>
+			h1 {color: #6495ed;
+				font-family: Segoe UI Light;
+				display: inline;}
+		</style>
 	</header>
 	<body>
 		<div class="container">
 				   <div class="row">
 
 			       <section class="content">
+			       <div class="row" align="center">
 			       <h1><b>Select Winning Bids</b></h1>
-
+			       </div>
+			       <br>
 			       <div class="container">
-					<div class="row">		
-           				<div id="custom-search-input">
-           					<form id="custom-search-input" method = "post">
-                           	<div class="input-group col-md-6 col-md-offset-3">
-                                <input type="text" class="search-query form-control" placeholder="Search" name = "search"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button" name="search-submit">
-                                        <span class=" glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                            </form>
-                         </div>
-                    </div>
-				    <br>
 			        <div class="col-md-8 col-md-offset-2">
 				    <div class="panel panel-default">
 					  <div class="panel-body">
@@ -56,8 +48,9 @@
 			//retrieve all bids
 
 			$queryappliances = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
-	        FROM item i, member m, bidding b 
-	        WHERE m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
+	        FROM item i, bidding b 
+	        WHERE i.itemid = b.itemid AND i.type = 'appliances' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
+	        //user A's items that are out for bidding 
 
 	        $querytools = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
@@ -77,34 +70,6 @@
 	        $result_tools = pg_query($querytools); 
 	        $result_furnitures = pg_query($queryfurnitures); 
 	        $result_books = pg_query($querybooks); 
-	        /*
-			$search = '';
-			if(isset($_POST['search-submit']) && !empty($_POST['search'])) {
-				$search = pg_escape_string($_POST['search']);
-				$superquery = "SELECT i.type, i.itemname, i.availabledate, i.description FROM item i WHERE  i.itemname LIKE '%" . $search . "%'";
-				$superresult = pg_query($superquery);
-				header("Location: bidding.php");
-
-				while ($superrow = pg_fetch_assoc($superresult)) {
-				echo '<tr data-status="'.$row["type"].'">
-										<td>
-  												<input name="checkbox[]"  type="checkbox" value="'.$row["itemid"].'">
-										</td>
-										<td>
-											<a href="javascript:;" class="star">
-												<i class="glyphicon glyphicon-star"></i>
-											</a>
-										</td>
-										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
-				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
-				} 
-			} */
 
 			//start of form
 			echo '<form id="winbid-form" action="processbid.php" method="post" role="form" style="display: block;">';
@@ -196,10 +161,6 @@
 			}
 
 			echo '</tbody></table>';
-			if(isset($_POST['winbids'])) {
-
-			}
-        
 			pg_free_result($result);
 			pg_free_result($result_books);
 			pg_free_result($result_furnitures);
@@ -214,7 +175,6 @@
 					</div>
 				</div>
 		</form> <!-- End of Form -->
-
 		</div>
 		</div>
 
@@ -222,8 +182,7 @@
 				
 				<div class="text-left">
 					<p>	
-						<a href="retrieveinfo.php" class="btn btn-primary" role="button">Your Shared Items</a>
-						<a href="borrowed.php" class="btn btn-primary" role="button">Your Borrowed Items</a>
+						<a href="retrieveInfo.php" class="btn btn-primary" role="button">Back to Main Page</a>
 						<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 					</p>
 				</div>

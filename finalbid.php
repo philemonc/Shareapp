@@ -21,7 +21,7 @@
 			$chk =	$_SESSION['finbid'];
 			$idtobids = array_combine($chk, $bidd);
 			$email = $_SESSION['email'];
-			
+			var_dump($idtobids);			
 
 			echo ' <div class="container">
 				   <div class="row">
@@ -87,7 +87,7 @@
 				}
 			} 
 			pg_free_result($result);
-				echo '</tbody></table>';
+			echo '</tbody></table>';
 		?>
 				</form>
 				</div>

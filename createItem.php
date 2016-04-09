@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text.css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text.css" href="css/style.css">
 	<style>
-		h2 {color: #6495ed;
+		h1 {color: #6495ed;
 			font-family: Segoe UI Light;
 			display: inline;}
 	</style>
@@ -37,7 +37,11 @@
 			</div>
 			</form>
 				';*/
-		echo '<h2 align="center"><b>Create A New Item<b></h2>
+		echo '
+			<div class="row" align="center">
+			<h1><b>Create a New Item</b></h1>
+			</div>
+			<br>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
