@@ -49,20 +49,20 @@
 
 			$queryappliances = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, bidding b 
-	        WHERE i.itemid = b.itemid AND i.type = 'appliances' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
-	        //user A's items that are out for bidding 
+	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'appliances' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
+	       	//user A's items that are out for bidding 
 	        $querytools = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
-	        FROM item i, member m, bidding b 
-	        WHERE m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
+	        FROM item i, bidding b 
+	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'tools' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
 	        $queryfurnitures = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
-	        FROM item i, member m, bidding b 
-	        WHERE m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
+	        FROM item i, bidding b 
+	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'furnitures' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
 	        $querybooks = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
-	        FROM item i, member m, bidding b 
-	        WHERE m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
+	        FROM item i, bidding b 
+	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'books' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
 
 

@@ -41,21 +41,23 @@
         //first_value is bidderemail, second_value is itemid
 		foreach ($chkboxAr as $first_value => $tmpArray) {
 			foreach($tmpArray as $second_value) {
-
-	        $query = "SELECT DISTINCT b.name, b.itemname, i.type FROM bidding b, item i WHERE i.itemid = '$second_value' AND b.itemid = i.itemid AND b.email = '$first_value'"; 
-	        $result = pg_query($query); 
+ 
+	        $result = pg_query("SELECT DISTINCT b.name, b.itemname, i.type FROM bidding b, item i WHERE i.itemid = '$second_value' AND b.itemid = i.itemid AND b.email = '$first_value'"); 
 
 	        //successbid = 1 means successful, 0 means unsuccessful
 	        //pendingstatus = 1 means pending, 0 means not pending
-	        $updatequery = "UPDATE bidding SET successbid = '1', pendingstatus = '0' WHERE email ='$first_value' AND itemid = '$second_value'";
-	        $resultupdate = pg_query($updatequery);
 
-	        $updateloan = "INSERT INTO loan VALUES ('$first_value','$email', '$second_value', now(), now() + interval '14' day)";
-	        $result_insertLoan = pg_query($updateloan);
+	        //change item availability to 0
+	        $updateitem = pg_query("UPDATE item SET availablityflag = '0' WHERE itemid = '$second_value'");
+
+	        //update bid in bidding table
+	        $resultupdate = pg_query("UPDATE bidding SET successbid = '1', pendingstatus = '0' WHERE email ='$first_value' AND itemid = '$second_value'");
+
+	        //add new entry to loan table
+	        $result_insertLoan = pg_query("INSERT INTO loan VALUES ('$first_value','$email', '$second_value', now(), now() + interval '14' day)");
 
 	        //set all the rest to successbid = 0, pending status = 0
-	        $update_pendStatus = "UPDATE bidding SET successbid = '0', pendingstatus = '0' WHERE email <> '$first_value' AND itemid = '$second_value'";
-	        $result_newPendStatus = pg_query($update_pendStatus);
+	        $result_newPendStatus = pg_query("UPDATE bidding SET successbid = '0', pendingstatus = '0' WHERE email <> '$first_value' AND itemid = '$second_value'");
 			
 			//fetch all selected items
 			while ($row = pg_fetch_assoc($result)) {

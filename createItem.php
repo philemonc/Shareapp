@@ -23,20 +23,6 @@
 		include_once 'includes/dbconnect.php';
 		$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 		
-		/*echo '<h2>Create A New Item</h2>
-			<form class="form-inline" role="form" method="post">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Item Type
-				<span class="caret"></span></button>
-				<ul class="item-type" id="item-type">
-					<li><a href="#">Appliance</li>
-					<li><a href="#">Tool</li>
-					<li><a href="#">Furniture</li>
-					<li><a href="#">Books</li>
-				</ul>
-			</div>
-			</form>
-				';*/
 		echo '
 			<div class="row" align="center">
 			<h1><b>Create a New Item</b></h1>
