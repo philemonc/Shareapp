@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<style>
-			h2 {color: #6495ed;
+			h1 {color: #6495ed;
 				font-family: Segoe UI Light;
 				display: inline;}
 		</style>
@@ -20,14 +20,16 @@
 			$bidd = $_SESSION['bidarray'];
 			$chk =	$_SESSION['finbid'];
 			$idtobids = array_combine($chk, $bidd);
-			$email = $_SESSION['email'];
-			var_dump($idtobids);			
+			$email = $_SESSION['email'];			
 
 			echo ' <div class="container">
 				   <div class="row">
 
 			       <section class="content">
-			       <h2>Confirmed Bids</h2>
+			        <div class="row" align="center">
+			       <h1><b>Confirm your bids</b></h1>
+			       </div>
+			       <br>
 
 			       <div class="container">
 					<div class="row">		
@@ -57,7 +59,7 @@
 	        $itemname = $rowitem['itemname'];
 	        $itemid = $rowitem['itemid'];
 
-	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now(), '0')";	     
+	        $updatequery = "INSERT INTO bidding VALUES ('$name', '$email', '$value' , '$itemid', '$itemname', now(), '0', '1')";	     
 	        $update = pg_query($updatequery);
 	       
 	        

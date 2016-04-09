@@ -82,7 +82,7 @@
 				} else if ($row['successbid'] == 0 && $row['pendingstatus'] == 1) {
 					$message = "Bid Pending";
 					$buttontype = "warning";
-				}
+				} 
 				echo '<tr data-status="tools">
 										<td>
   											<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>

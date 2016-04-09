@@ -43,11 +43,26 @@
 			
 			session_start();
 			$email = $_SESSION['email'];
+			
 			//1 means available, 0 means not available
-	        $queryappliances = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'appliances' AND availablityflag = '1' AND i.email <> '$email'"; 
-	        $querytools = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'tools' AND availablityflag = '1' AND i.email <> '$email'";
-	        $queryfurnitures = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'furnitures' AND availablityflag = '1' AND i.email <> '$email'";
-	        $querybooks = "SELECT i.itemid, i.itemname, i.availabledate, i.description FROM item i WHERE i.type = 'books' AND availablityflag = '1' AND i.email <> '$email'";
+	        $queryappliances = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+			FROM item i
+			WHERE i.type = 'appliances' AND availablityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
+	        
+	        //query for tools
+	        $querytools = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+			FROM item i
+			WHERE i.type = 'tools' AND availablityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
+
+	        //query for furniture
+	        $queryfurnitures = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+			FROM item i
+			WHERE i.type = 'furnitures' AND availablityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
+
+	        //query for books
+	        $querybooks = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+			FROM item i
+			WHERE i.type = 'books' AND availablityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
 
 	        $result_appliances = pg_query($queryappliances); 
 	        $result_tools = pg_query($querytools); 
