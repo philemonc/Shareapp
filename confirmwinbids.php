@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<style>
-			h2 {color: #6495ed;
+			h1 {color: #6495ed;
 				font-family: Segoe UI Light;
 				display: inline;}
 		</style>
@@ -23,8 +23,10 @@
 				   <div class="row">
 
 			       <section class="content">
+			       <div class="row" align="center">
 			       <h1><b>Selected Winning Bids</b></h1>
-
+			       </div>
+			       <br>
 			       <div class="container">
 					<div class="row">		
 			       <div class="col-md-8 col-md-offset-2">
