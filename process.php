@@ -90,7 +90,11 @@ if(isset($_POST['register-submit'])) {
 	}
 
 	if ($password == $confirmpassword) {
+		if (isset($_POST['adminflag'])) {
 		$result = pg_query("INSERT INTO member VALUES('$username', '$email', '$password', '$address', '$contact', '".$_POST['adminflag']."')");
+		} else {
+		$result = pg_query("INSERT INTO member VALUES('$username', '$email', '$password', '$address', '$contact', '0')");
+		}
 	} 
 	header("Location: index.php"); 
    	pg_close($dbconn);
