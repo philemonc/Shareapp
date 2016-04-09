@@ -13,14 +13,7 @@ if(!$_SESSION['email']) {
 	header("Location: index.php");
 }
 
-if(isset($_POST['delete-submit'])) {
-	$id = intval(pg_escape_string($_POST['id']));
-   	$query = "DELETE FROM item WHERE id = " . $id;
-    $result = pg_query($query);
-	header("Location: retrieveinfo.php"); 
-	pg_close($dbconn);
-}
-
+//user login
 if(isset($_POST['login-submit'])) {
 	//".$GET['item']." are enclosed in SQL ''
 	$email = pg_escape_string($_POST['email']);
@@ -43,6 +36,7 @@ if(isset($_POST['login-submit'])) {
    pg_close($dbconn);
 }
 
+//register user
 if(isset($_POST['register-submit'])) {
 	$username = pg_escape_string($_POST['username']);
 	$email = pg_escape_string($_POST['email']); 
@@ -99,41 +93,14 @@ if(isset($_POST['register-submit'])) {
 	header("Location: index.php"); 
    	pg_close($dbconn);
 }
-if(isset($_POST['edit-submit'])) {
-	$type = pg_escape_string($_POST['type']);
-	$id = intval(pg_escape_string($_POST['id']));
-	$fee = pg_escape_string($_POST['fee']);
-	$name = pg_escape_string($_POST['name']);
-	$pickup = pg_escape_string($_POST['pickup']);
-	$return = pg_escape_string($_POST['return']);
-	$date = pg_escape_string($_POST['availableDate']);
-	$description = pg_escape_string($_POST['description']);
-	$email = $_SESSION['email'];
-   	$query = "UPDATE item SET type='$type', fee='$fee', name='$name', pickup='$pickup', return = '$return', date='$date', description='$description' WHERE id=" . $id . " AND email='$email'";
-    $result = pg_query($query);
+
+STATIC $deletedItemID = array();
+if (isset($_POST['yesbutton'])) {
+	//$checked = $_POST['checkbox'];
+    //$_SESSION['checkedboxes'] = $checked;
+	//$result = pg_query("DELETE FROM item WHERE itemid = ");
 	header("Location: retrieveinfo.php"); 
-	pg_close($dbconn);
 }
-if(isset($_POST['edit-submit1'])) {
-	$type = pg_escape_string($_POST['type']);
-	$id = intval(pg_escape_string($_POST['id']));
-	$fee = pg_escape_string($_POST['fee']);
-	$name = pg_escape_string($_POST['name']);
-	$pickup = pg_escape_string($_POST['pickup']);
-	$return = pg_escape_string($_POST['return']);
-	$email = $_SESSION['email'];
-   	$query = "UPDATE item SET type='$type', fee='$fee', name='$name', pickup='$pickup', return = '$return' WHERE id=" . $id . " AND email='$email'";
-    $result = pg_query($query);
-	header("Location: retrieveinfo.php"); 
-	pg_close($dbconn);
-}
-if(isset($_POST['delete-submit1'])) {
-	$id = intval(pg_escape_string($_POST['id']));
-    $query = "DELETE FROM loan WHERE id=" . $id;
-    $result = pg_query($query);
-   	$query = "DELETE FROM item WHERE id = " . $id;
-    $result = pg_query($query);
-	header("Location: retrieveinfo.php"); 
-	pg_close($dbconn);
-}
+
+
 ?> 

@@ -18,7 +18,7 @@
 			$email = $_SESSION['email'];
 			$chkboxAr = $_SESSION['checkedwin'];
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
-			var_dump($chkboxAr);
+
 			echo ' <div class="container">
 				   <div class="row">
 
@@ -48,7 +48,7 @@
 	        //pendingstatus = 1 means pending, 0 means not pending
 
 	        //change item availability to 0
-	        $updateitem = pg_query("UPDATE item SET availablityflag = '0' WHERE itemid = '$second_value'");
+	        $updateitem = pg_query("UPDATE item SET availabilityflag = '0' WHERE itemid = '$second_value'");
 
 	        //update bid in bidding table
 	        $resultupdate = pg_query("UPDATE bidding SET successbid = '1', pendingstatus = '0' WHERE email ='$first_value' AND itemid = '$second_value'");

@@ -31,7 +31,7 @@
 		?>
 		 
 			<?php
-	        $query = "SELECT DISTINCT i.type, i.availablityflag, i.feeflag, m.name,  i.itemname, i.pickuplocation, i.returnlocation FROM bidding b, item i, loan l, member m WHERE i.email = '{$_SESSION['email']}' AND l.borrower = m.email AND l.lender = i.email AND i.itemid = b.itemid AND b.successbid = '1' AND b.pendingstatus = '0'"; 
+	        $query = "SELECT DISTINCT i.type, i.availabilityflag, i.feeflag, m.name,  i.itemname, i.pickuplocation, i.returnlocation FROM bidding b, item i, loan l, member m WHERE i.email = '{$_SESSION['email']}' AND l.borrower = m.email AND l.lender = i.email AND i.itemid = b.itemid AND b.successbid = '1' AND b.pendingstatus = '0'"; 
 	        
 	        $result = pg_query($query); 
 			$i = 0;
@@ -67,7 +67,7 @@
 						'.$row['type'].'
 					  </td>
 					  <td>
-						'.$row['availablityflag'].'
+						'.$row['availabilityflag'].'
 					  </td>
 					  <td>
 						'.$row['feeflag'].'
@@ -85,8 +85,20 @@
 						'.$row['returnlocation'].'
 					  </td>
 					  ';
-				echo '<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-    				<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>';
+				echo '<td>
+						<p data-placement="top" data-toggle="tooltip" title="Edit">
+							<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</p>
+					</td>
+    				<td>
+    					<p data-placement="top" data-toggle="tooltip" title="Delete">
+    						<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+    							<span class="glyphicon glyphicon-trash"></span>
+    						</button>
+    					</p>
+    				</td>';
 				echo '</tr>';
 			}
 			pg_free_result($result);
@@ -118,7 +130,7 @@
         			</div>
       			</div>
           		<div class="modal-footer ">
-        			<button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+        			<button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
       			</div>
         	</div><!-- /.modal-content --> 
   		</div><!-- /.modal-dialog --> 
@@ -133,13 +145,15 @@
         			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
         			<h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
       			</div>
+      			<form action = "process.php" method="post" id = "yesbuttonf">
           		<div class="modal-body">
        				<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
        			</div>
         		<div class="modal-footer ">
-        			<button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+        			<button type="submit" name= "yesbutton" id= "yesbutton" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
         			<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
       			</div>
+      			</form>
         	</div><!-- /.modal-content --> 
   		</div><!-- /.modal-dialog --> 
     </div>
