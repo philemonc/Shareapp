@@ -33,7 +33,9 @@
 		?>
 		 
 			<?php
-	        $query = "SELECT DISTINCT i.itemid, i.type, i.availabilityflag, i.feeflag, m.name,  i.itemname, i.pickuplocation, i.returnlocation FROM bidding b, item i, loan l, member m WHERE i.email = '{$_SESSION['email']}' AND l.borrower = m.email AND l.lender = i.email AND i.itemid = b.itemid AND b.successbid = '1' AND b.pendingstatus = '0'"; 
+	        $query = "SELECT DISTINCT i.itemid, i.type, i.feeflag, m.name,  i.itemname, i.pickuplocation, i.returnlocation 
+	        FROM item i, loan l, member m 
+	        WHERE i.email = '{$_SESSION['email']}' AND l.borrower = m.email AND l.lender = i.email AND l.itemid = i.itemid"; 
 	        
 	        $result = pg_query($query); 
 			$i = 0;
@@ -51,7 +53,6 @@
 	                   
 	                   <thead>
 	                   <th>Type</th>
-	                   <th>Availability</th>
 	                   <th>Fee</th>
 	                   <th>Borrower Name</th>
 	                   <th>Item Name</th>
@@ -66,9 +67,6 @@
 				echo '
 					 <td>
 						'.$row['type'].'
-					 </td>
-					 <td>
-						'.$row['availabilityflag'].'
 					 </td>
 					 <td>
 						'.$row['feeflag'].'
