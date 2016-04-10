@@ -1,7 +1,7 @@
-# ShareApp
-CS2102 Project Group 9
+# SmartCrate
+CS2102 Database Systems Project Group 9
 
-	ShareApp is a web application that enables people to lend or borrow items that they own. 
+	SmartCrate is a web application that enables people to lend or borrow items that they own. 
 	These items fall under four broad categories (tools, appliances, furnitures and books). 
 	The items can be loaned for a fee or free. In this web application, users can put items up 
 	for loan or they can scroll through the available stuffs so that they can borrow it. As soon 
