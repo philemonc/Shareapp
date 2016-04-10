@@ -25,7 +25,8 @@
 			include_once 'includes/dbconnect.php';
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 
-	        $query = "SELECT DISTINCT m2.name, i.itemname, l.borrowdate, l.returndate, i.pickuplocation, i.returnlocation FROM loan l, item i, member m1, member m2 WHERE m1.email = '{$_SESSION['email']}' AND i.email = l.lender AND l.lender = m2.email AND m1.email = l.borrower"; 
+
+	        $query = "SELECT DISTINCT m.name, i.itemname, l.borrowdate, l.returndate, i.pickuplocation, i.returnlocation FROM loan l, item i, member m WHERE l.borrower = '{$_SESSION['email']}' AND l.lender = m.email AND l.itemid = i.itemid"; 
 	        
 	        $result = pg_query($query); 
 			$i = 0;
