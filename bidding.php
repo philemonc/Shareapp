@@ -7,21 +7,33 @@
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css">
 		<style>
-			h2 {color: #6495ed;
+			h1 {color: #6495ed;
 				font-family: Segoe UI Light;
 				display: inline;}
 		</style>
 	</header>
 	<body>
 		<div class="container">
-				   <div class="row">
-
-			       <section class="content">
+			<div class="row">
+				   <section class="content">
 			       <div class="row" align="center">
-			       <h2><b>Items up for bidding</b></h2>
+			       <h1><b>Items up for bidding</b></h1>
 			       </div>
+			       <br>
+			       <form id="search-form" action="bidding.php" method="post" role="form" style="display: block;">
+						<div class="btn-group">
+							<div class="col-md-6 col-md-offset-3">
+							<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search Items" name="search">
+								<div class="input-group-btn">
+										<button name="search-submit" id="search-submit" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+								</div>
+							</div>
+							</div>
+						</div>
+					</form>
+			 	   <br>
 			       <div class="container">
-				    <br>
 			        <div class="col-md-8 col-md-offset-2">
 				    <div class="panel panel-default">
 					  <div class="panel-body">
@@ -38,12 +50,44 @@
 						<table class="table table-filter">
 						<tbody>
 		<?php 
-			include_once 'includes/dbconnect.php';
-			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
+		include_once 'includes/dbconnect.php';
+		$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 			
-			session_start();
-			$email = $_SESSION['email'];
+		session_start();
+		$email = $_SESSION['email'];
 			
+		$search = '';
+		//handle search query
+		if(isset($_POST['search-submit'])) {
+			$search = pg_escape_string($_POST['search']);
+			$query = "SELECT i.itemid, i.itemname, i.type, i.availabledate, i.description FROM item i WHERE i.itemname LIKE '%" . $search . "%'"; 
+	        $result = pg_query($query); 
+	        echo '<form id="bid-form" action="processbid.php" method="post" role="form" style="display: block;">';
+	        
+			while ($row = pg_fetch_assoc($result)) {
+				echo '<tr data-status="'.$row["type"].'">
+										<td>
+											<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>';	
+				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
+				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(Tools)</span></h4>';
+				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
+			}
+			pg_free_result($result);
+			echo '</tbody></table>';
+		
+		} else { 
+			//handle query not in search
 			//1 means available, 0 means not available
 	        $queryappliances = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description
 			FROM item i
@@ -174,7 +218,8 @@
 			pg_free_result($result_books);
 			pg_free_result($result_furnitures);
 			pg_free_result($result_appliances);
-			pg_close($dbconn);
+		}
+		pg_close($dbconn);
 		?>
 				<div class="form-group">
 					<div class="row">

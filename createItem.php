@@ -41,7 +41,7 @@
 								<select name="itemType" required>
 									<option value="appliances">Appliance</option>
 									<option value="tools">Tool</option>
-									<option value="furniture">Furniture</option>
+									<option value="furnitures">Furniture</option>
 									<option value="books">Books</option>
 									<option value="others">Others</option>
 								</select>
