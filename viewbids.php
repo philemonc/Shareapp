@@ -92,11 +92,9 @@
 										</td>
 										<td>
 											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
-				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
-				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
+											<div class="media-body">
+											<span class="media-meta pull-right">'.$row["availabledate"].'</span>
+											<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
 				
 			} 
@@ -125,10 +123,7 @@
 										</td>
 										
 										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
+											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right appliances">(appliances)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
@@ -161,10 +156,7 @@
 										</td>
 										
 										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
+											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right furnitures">(furnitures)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
@@ -190,7 +182,7 @@
 
 										<td>
 											
-  												<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
+  											<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
   											
 										</td>
 										<td>
@@ -199,10 +191,7 @@
 										
 									
 										<td>
-											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-												</a>';	
+											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right books">(books)</span></h4>';
 				echo '<p class="summary">'.$row["description"].'</p></div></div></td></tr>';
