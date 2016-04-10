@@ -90,13 +90,19 @@
 			echo '</tbody></table>';
 	?>
 	<div class="text-left">
+		<a href="profile.php" class="btn btn-primary" role="button">Profile</a>
 		<a href="newitems.php" class="btn btn-primary" role="button">New Items</a>
 		<a href="borrowed.php" class="btn btn-primary" role="button">Borrowed Items</a>
 		<a href="createItem.php" class="btn btn-primary" role="button">Create New Item</a>
 		<a href="bidding.php" class="btn btn-success" role="button">Bidding Page</a>
 		<a href="selectbids.php" class="btn btn-info" role="button">Select Bids</a>
 		<a href="viewbids.php" class="btn btn-info" role="button">View Bids</a>
-		<a href="administrator.php" class = "btn btn-warning" role="button">Administrator</a>
+		<?php
+			$query = "SELECT adminFlag FROM member WHERE email='{$_SESSION['email']}'";
+			if (pg_query($query) == 1) {
+				echo '<a href="administrator.php" class = "btn btn-warning" role="button">Administrator</a>';
+			}
+		?>
 		<a href="logout.php" class="btn btn-danger" role="button">Logout</a>
 	</div>    
 	<script type="text/javascript" src="js/jquery.min.js"></script>

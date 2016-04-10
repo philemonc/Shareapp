@@ -43,29 +43,31 @@
 					<div class="col-md-6 col-md-offset-3">
 						<form id="editProfile" method="post" role="form" style"display: none;">
 							<div class="form-group">
-								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $username; ?>">
+								<label>Username:</label>
+								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="'.htmlspecialchars($username).'" />
 							</div>
 							<div class="form-group">
-								<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $email; ?>">
+								<label>Email:</label>
+								<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="'.htmlspecialchars($email).'" />
 							</div>
 							<div class="form-group">
-								<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="<?php echo $password; ?>">
+								<label>Password:</label>
+								<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="'.htmlspecialchars($password).'" />
 							</div>
 							<div class="form-group">
-								<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" value="<?php echo $password; ?>">
+								<label>Confirm Password:</label>
+								<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" value="'.htmlspecialchars($password).'" />
 							</div>
 							<div class="form-group">
-								<input type="address" name="address" id="address" tabindex="2" class="form-control" placeholder="Home Address" value="<?php echo $address; ?>">
+								<label>Address:</label>
+								<input type="address" name="address" id="address" tabindex="2" class="form-control" placeholder="Home Address" value="'.htmlspecialchars($address).'" />
 							</div>
 							<div class="form-group">
-								<input type="contact" name="contact" id="contact" tabindex="2" class="form-control" placeholder="Contact Number" value="<?php echo $contact; ?>">
+								<label>Contact Number:</label>
+								<input type="contact" name="contact" id="contact" tabindex="2" class="form-control" placeholder="Contact Number" value="'.htmlspecialchars($contact).'" />
 							</div>
 							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<input type="submit" name="profile-submit" id="profile-submit" tabindex="3" class="form-control btn btn-register" value="Update Profile">
-									</div>
-								</div>
+								<input type="submit" name="profile-submit" id="profile-submit" tabindex="3" class="form-control btn btn-success" value="Update Profile">
 							</div>
 						</form>
 						<div class="text-left">
