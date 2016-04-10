@@ -22,18 +22,17 @@ if(isset($_POST['login-submit'])) {
     //$query = "select email, password from member where email = '{$email}' and password = '{$password}'";
     $result = pg_query($query);
     $rst = pg_num_rows($result);
-   if ($rst > 0)  {
-   	$_SESSION['email'] = $email; 
-   	header("Location: retrieveinfo.php"); 
-   }
-   else 
+   	if ($rst > 0)  {
+   		$_SESSION['email'] = $email; 
+   		header("Location: retrieveinfo.php"); 
+   	}
+   	else {
      //echo '<html><header><title></title></header>'
-     echo '
-			<div class="alert alert-danger">
-				<strong>Invalid User</strong>
-			</div>';
+     echo '<div class="alert alert-danger"><strong>Invalid User</strong></div>';
    	 //echo '<body><button type="button" class="btn btn-link" action="index.php">Return to Login</button></body></html>';
-   pg_close($dbconn);
+ 	}
+ 	pg_free_result($result);
+ 	pg_free_result($rst);
 }
 
 //register user
@@ -82,25 +81,19 @@ if(isset($_POST['register-submit'])) {
 				<strong>The email is already in use</strong>
 			</div>';
 	}
+	pg_free_result($rresult);
+	pg_free_result($rquery);
 
 	if ($password == $confirmpassword) {
 		if (isset($_POST['adminflag'])) {
 		$result = pg_query("INSERT INTO member VALUES('$username', '$email', '$password', '$address', '$contact', '".$_POST['adminflag']."')");
+		pg_free_result($result);
 		} else {
 		$result = pg_query("INSERT INTO member VALUES('$username', '$email', '$password', '$address', '$contact', '0')");
+		pg_free_result($result);
 		}
 	} 
 	header("Location: index.php"); 
-   	pg_close($dbconn);
 }
-
-STATIC $deletedItemID = array();
-if (isset($_POST['yesbutton'])) {
-	//$checked = $_POST['checkbox'];
-    //$_SESSION['checkedboxes'] = $checked;
-	//$result = pg_query("DELETE FROM item WHERE itemid = ");
-	header("Location: retrieveinfo.php"); 
-}
-
-
+pg_close($dbconn);
 ?> 

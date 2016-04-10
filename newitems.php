@@ -1,31 +1,24 @@
 	<!DOCTYPE html>
-	
-	<?php
-		session_start();
-		
-		if(!$_SESSION['email']) {
-			header("Location: index.php");
-		}
-	?>
 	<html>
 	<head>
-		<title>Borrowed Items</title>
+		<title>Your New Items</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/biddingpage.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css">
 		<style>
-			h2 {color: #6495ed;
+			h1 {color: #6495ed;
 				font-family: Segoe UI Light;
 				display: inline;}
 		</style>
 	</head>
 	<body>
 	<?php 
+			session_start();
+			$email = $_SESSION['email'];
 			include_once 'includes/dbconnect.php';
 			$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
-
-	        $query = "SELECT DISTINCT m2.name, i.itemname, l.borrowdate, l.returndate, i.pickuplocation, i.returnlocation FROM loan l, item i, member m1, member m2 WHERE m1.email = '{$_SESSION['email']}' AND i.email = l.lender AND l.lender = m2.email AND m1.email = l.borrower"; 
+	        $query = "SELECT i.itemname, i.pickuplocation, i.returnlocation, i.availabledate, i.description FROM item i WHERE i.email = '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)"; 
 	        
 	        $result = pg_query($query); 
 			$i = 0;
@@ -35,41 +28,38 @@
 			<div class="container">
 			<div class="row">  
 	        <div class="col-md-12">
-	        <h2>Your Borrowed Items</h2>
+	        <h1>Your New Items</h1>
 	        <div class="table-responsive">
 
 	                
 	              <table id="mytable" class="table table-bordred table-striped">
 	                   
 	                   <thead>
-	                   <th>Lender Name</th>
 	                   <th>Item Name</th>
-	                   <th>Borrow Date</th>
-	                   <th>Return Date</th>
 	                   <th>Pick Up Location</th>
 	                   <th>Return Location</th>
+	                   <th>Available Date</th>
+	                   <th>Description</th>
 	                   </thead>
 	    			   <tbody>';
 
 			while ($row = pg_fetch_assoc($result)) {
 				echo '<tr>';
-				echo '<td>
-						'.$row['name'].'
-					  </td>
+				echo '
 					  <td>
 						'.$row['itemname'].'
-					  </td>
-					  <td>
-						'.$row['borrowdate'].'
-					  </td>
-					  <td>
-						'.$row['returndate'].'
 					  </td>
 					  <td>
 						'.$row['pickuplocation'].'
 					  </td>
 					  <td>
 						'.$row['returnlocation'].'
+					  </td>
+					   <td>
+						'.$row['availabledate'].'
+					  </td>
+					   <td>
+						'.$row['description'].'
 					  </td>
 					  ';
 				echo '</tr>';

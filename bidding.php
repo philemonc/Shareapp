@@ -174,7 +174,7 @@
 			pg_free_result($result_books);
 			pg_free_result($result_furnitures);
 			pg_free_result($result_appliances);
-			
+			pg_close($dbconn);
 		?>
 				<div class="form-group">
 					<div class="row">
