@@ -24,7 +24,7 @@
 		$dbconn = pg_connect($connection) or die('Could not connect: ' . pg_last_error());
 		
 		$nquery = "SELECT name FROM member WHERE email='{$_SESSION['email']}'";
-		$name = pg_query($dbconn, $nquery);
+		$username = pg_query($dbconn, $nquery);
 		$email = $_SESSION['email'];
 		
 		$pquery = "SELECT password FROM member WHERE email='{$_SESSION['email']}'";
@@ -43,7 +43,7 @@
 					<div class="col-md-6 col-md-offset-3">
 						<form id="editProfile" method="post" role="form" style"display: none;">
 							<div class="form-group">
-								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $name; ?>">
+								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $username; ?>">
 							</div>
 							<div class="form-group">
 								<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $email; ?>">
