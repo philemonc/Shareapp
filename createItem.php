@@ -43,7 +43,6 @@
 									<option value="tools">Tool</option>
 									<option value="furnitures">Furniture</option>
 									<option value="books">Books</option>
-									<option value="others">Others</option>
 								</select>
 							</div>
 							<div class="col-sm-4">
