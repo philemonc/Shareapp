@@ -76,6 +76,12 @@
 			
 			//fetch all tools
 			while ($row = pg_fetch_assoc($result_tools)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="tools">
 										<td>
 											
@@ -83,7 +89,7 @@
   										
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<div class="media">';
@@ -93,6 +99,12 @@
 				
 			} 
 			while ($row = pg_fetch_assoc($result_appliances)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="appliances">
 										<td>
 											
@@ -100,7 +112,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>										
 										<td>
 											<div class="media">';	
@@ -112,6 +124,12 @@
 			}
 			//fetch all furnitures
 			while ($row = pg_fetch_assoc($result_furnitures)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="furnitures">
 										<td>
 											
@@ -119,7 +137,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<div class="media">';	
@@ -131,13 +149,19 @@
 			}
 			//fetch all book
 			while ($row = pg_fetch_assoc($result_books)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="books">
 										<td>
 											
   											<input name="winbids['.$row["email"].'][]" type="checkbox" value="'.$row["itemid"].'">
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 									
 										<td>
