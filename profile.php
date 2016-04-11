@@ -25,26 +25,33 @@
 		
 		$nquery = "SELECT name FROM member WHERE email='{$_SESSION['email']}'";
 		$username = pg_query($dbconn, $nquery);
+		$usernamed = pg_result($username, 0);
 		$email = $_SESSION['email'];
 		
 		$pquery = "SELECT password FROM member WHERE email='{$_SESSION['email']}'";
 		$password = pg_query($dbconn, $pquery);
+		$passwordd = pg_result($password, 0);
 		
 		$aquery = "SELECT address FROM member WHERE email='{$_SESSION['email']}'";
 		$address = pg_query($dbconn, $aquery);
+		$addressd = pg_result($address, 0);
 		
 		$cquery = "SELECT contactNumber FROM member WHERE email='{$_SESSION['email']}'";
 		$contact = pg_query($dbconn, $cquery);
+		$contactd = pg_result($contact, 0);
 		
 		echo '
-			<h2 align="center">Your Profile</h2>
+			<div class="row" align="center">
+			<h2><b>Your Profile</b></h2>
+			</div>
+			<br>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
 						<form id="editProfile" method="post" role="form" style"display: none;">
 							<div class="form-group">
 								<label>Username:</label>
-								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="'.htmlspecialchars($username).'" />
+								<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="'.htmlspecialchars($usernamed).'" />
 							</div>
 							<div class="form-group">
 								<label>Email:</label>
@@ -52,19 +59,19 @@
 							</div>
 							<div class="form-group">
 								<label>Password:</label>
-								<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="'.htmlspecialchars($password).'" />
+								<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="'.htmlspecialchars($passwordd).'" />
 							</div>
 							<div class="form-group">
 								<label>Confirm Password:</label>
-								<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" value="'.htmlspecialchars($password).'" />
+								<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" value="'.htmlspecialchars($passwordd).'" />
 							</div>
 							<div class="form-group">
 								<label>Address:</label>
-								<input type="address" name="address" id="address" tabindex="2" class="form-control" placeholder="Home Address" value="'.htmlspecialchars($address).'" />
+								<input type="address" name="address" id="address" tabindex="2" class="form-control" placeholder="Home Address" value="'.htmlspecialchars($addressd).'" />
 							</div>
 							<div class="form-group">
 								<label>Contact Number:</label>
-								<input type="contact" name="contact" id="contact" tabindex="2" class="form-control" placeholder="Contact Number" value="'.htmlspecialchars($contact).'" />
+								<input type="contact" name="contact" id="contact" tabindex="2" class="form-control" placeholder="Contact Number" value="'.htmlspecialchars($contactd).'" />
 							</div>
 							<div class="form-group">
 								<input type="submit" name="profile-submit" id="profile-submit" tabindex="3" class="form-control btn btn-success" value="Update Profile">
@@ -80,7 +87,7 @@
 		
 		if(isset($_POST['profile-submit'])) {
 			$username = pg_escape_string($_POST['username']);
-			$email = pg_escape_string($_POST['email']); 
+			$cemail = pg_escape_string($_POST['email']); 
 			$password = pg_escape_string($_POST['password']);
 			$confirmpassword= pg_escape_string($_POST['confirm-password']);	
 			$address = pg_escape_string($_POST['address']);
@@ -114,7 +121,7 @@
 					</div>';
 			}
 			
-			$rquery = "Select * FROM member WHERE email='$email'";
+			$rquery = "Select * FROM member WHERE email='$email' AND email <> '{$_SESSION['email']}'";
 			$rresult = pg_query($rquery);
 			$rrst = pg_num_rows($rresult);
 			if ($rrst > 0) {
@@ -127,7 +134,8 @@
 			pg_free_result($rquery);
 
 			if ($password == $confirmpassword) {
-				$result = pg_query("INSERT INTO member(name, email, password, address, contactNumber) VALUES('$username', '$email', '$password', '$address', '$contact')");
+				$uquery = "Update member SET name='$username', email='$cemail', password='$password', address='$address', contactNumber='$contact' WHERE email='$email'";
+				$result = pg_query($uquery);
 				pg_free_result($result);
 			}
 		}

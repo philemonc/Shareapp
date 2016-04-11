@@ -99,7 +99,8 @@
 		<a href="viewbids.php" class="btn btn-info" role="button">View Bids</a>
 		<?php
 			$query = "SELECT adminFlag FROM member WHERE email='{$_SESSION['email']}'";
-			if (pg_query($query) == 1) {
+			$result = pg_query($query);
+			if (pg_result($result, 0) == 1) {
 				echo '<a href="administrator.php" class = "btn btn-warning" role="button">Administrator</a>';
 			}
 		?>
