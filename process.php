@@ -93,7 +93,6 @@ if(isset($_POST['register-submit'])) {
 		pg_free_result($result);
 		}
 	} 
-	header("Location: index.php"); 
 }
 pg_close($dbconn);
 ?> 

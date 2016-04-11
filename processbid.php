@@ -32,4 +32,19 @@
     }  
    	pg_close($dbconn);
 
+	STATIC $checked1 = array();
+	//handle checkbox lists
+	if(isset($_POST['select'])) {
+        $checked1 = $_POST['checkbox1'];
+        $_SESSION['checkedboxes1'] = $checked1;
+        header("Location: edituser.php");
+    }
+	
+	STATIC $checked2 = array();
+	//handle checkbox lists
+	if(isset($_POST['select2'])) {
+        $checked2 = $_POST['checkbox2'];
+        $_SESSION['checkedboxes2'] = $checked2;
+        header("Location: editItem.php");
+    }
 ?> 
