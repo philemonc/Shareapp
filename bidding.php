@@ -60,11 +60,17 @@
 		//handle search query
 		if(isset($_POST['search-submit'])) {
 			$search = pg_escape_string($_POST['search']);
-			$query = "SELECT i.itemid, i.itemname, i.type, i.availabledate, i.description FROM item i WHERE i.itemname LIKE '%" . $search . "%'"; 
+			$query = "SELECT i.feeflag, i.itemid, i.itemname, i.type, i.availabledate, i.description FROM item i WHERE i.itemname LIKE '%" . $search . "%'"; 
 	        $result = pg_query($query); 
 	        echo '<form id="bid-form" action="processbid.php" method="post" role="form" style="display: block;">';
 	        
 			while ($row = pg_fetch_assoc($result)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free';
+				} else {
+					$msg = 'Fee';
+				}
 				echo '<tr data-status="'.$row["type"].'">
 										<td>
 											<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
@@ -73,6 +79,9 @@
 											<a href="javascript:;" class="star">
 												<i class="glyphicon glyphicon-star"></i>
 											</a>
+										</td>
+										<td>
+										<p><b>'.$msg.'<b></p>
 										</td>
 										<td>
 											<div class="media">';	
@@ -86,22 +95,22 @@
 		} else { 
 			//handle query not in search
 			//1 means available, 0 means not available
-	        $queryappliances = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description
+	        $queryappliances = "SELECT DISTINCT i.feeflag, i.itemid, i.itemname, i.availabledate, i.description
 			FROM item i
 			WHERE i.type = 'appliances' AND availabilityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
 	        
 	        //query for tools
-	        $querytools = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+	        $querytools = "SELECT DISTINCT i.feeflag, i.itemid, i.itemname, i.availabledate, i.description 
 			FROM item i
 			WHERE i.type = 'tools' AND availabilityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
 
 	        //query for furniture
-	        $queryfurnitures = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description
+	        $queryfurnitures = "SELECT DISTINCT i.feeflag, i.itemid, i.itemname, i.availabledate, i.description
 			FROM item i
 			WHERE i.type = 'furnitures' AND availabilityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
 
 	        //query for books
-	        $querybooks = "SELECT DISTINCT i.itemid, i.itemname, i.availabledate, i.description 
+	        $querybooks = "SELECT DISTINCT i.feeflag, i.itemid, i.itemname, i.availabledate, i.description 
 			FROM item i
 			WHERE i.type = 'books' AND availabilityflag = '1' AND i.email <> '$email' AND i.itemid NOT IN (SELECT itemid FROM loan)";
 
@@ -116,6 +125,12 @@
 			
 			//fetch all tools
 			while ($row = pg_fetch_assoc($result_tools)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free';
+				} else {
+					$msg = 'Fee';
+				}
 				echo '<tr data-status="tools">
 										<td>
 											
@@ -128,6 +143,9 @@
 											</a>
 										</td>
 										<td>
+										<p><b>'.$msg.'<b></p>
+										</td>
+										<td>
 											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right tools">(tools)</span></h4>';
@@ -135,6 +153,12 @@
 				
 			} 
 			while ($row = pg_fetch_assoc($result_appliances)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free';
+				} else {
+					$msg = 'Fee';
+				}
 				echo '<tr data-status="appliances">
 										<td>
 											
@@ -147,6 +171,9 @@
 											</a>
 										</td>
 										<td>
+										<p><b>'.$msg.'<b></p>
+										</td>
+										<td>
 											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';
 				echo '<h4 class="title">'.$row["itemname"].'<span class="pull-right appliances">(appliances)</span></h4>';
@@ -156,6 +183,12 @@
 			}
 			//fetch all furnitures
 			while ($row = pg_fetch_assoc($result_furnitures)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free';
+				} else {
+					$msg = 'Fee';
+				}
 				echo '<tr data-status="furnitures">
 										<td>
   											<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
@@ -164,6 +197,9 @@
 											<a href="javascript:;" class="star">
 												<i class="glyphicon glyphicon-star"></i>
 											</a>
+										</td>
+										<td>
+										<p><b>'.$msg.'<b></p>
 										</td>
 										<td>
 											<div class="media">';	
@@ -175,6 +211,12 @@
 			}
 			//fetch all book
 			while ($row = pg_fetch_assoc($result_books)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free';
+				} else {
+					$msg = 'Fee';
+				}
 				echo '<tr data-status="books">
 										<td>
   											<input name="checkbox[]" type="checkbox" value="'.$row["itemid"].'">
@@ -184,7 +226,9 @@
 												<i class="glyphicon glyphicon-star"></i>
 											</a>
 										</td>
-									
+										<td>
+										<p><b>'.$msg.'<b></p>
+										</td>						
 										<td>
 											<div class="media">';	
 				echo '<div class="media-body"><span class="media-meta pull-right">'.$row["availabledate"].'</span>';

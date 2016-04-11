@@ -63,15 +63,21 @@
 	        $update = pg_query($updatequery);
 	       
 	        
-	        $query = "SELECT b.feeamount, i.itemname, i.availabledate, i.description, i.type 
+	        $query = "SELECT i.feeflag, b.feeamount, i.itemname, i.availabledate, i.description, i.type 
 	        FROM item i, member m, bidding b 
 	        WHERE i.itemid = '$key' AND i.itemid = b.itemid AND m.email = '$email' AND b.email = m.email"; 
 	        $result = pg_query($query); 
 			//fetch all selected items
 			while ($row = pg_fetch_assoc($result)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="'.$row["type"].'">
 										<td>
-											<p><b>Your Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Your Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<a href="javascript:;" class="star">

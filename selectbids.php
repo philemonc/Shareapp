@@ -47,20 +47,20 @@
 			//find all items that belong to user
 			//retrieve all bids
 
-			$queryappliances = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+			$queryappliances = "SELECT DISTINCT i.feeflag, b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, bidding b 
 	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'appliances' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
 	       	//user A's items that are out for bidding 
-	        $querytools = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $querytools = "SELECT DISTINCT i.feeflag, b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, bidding b 
 	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'tools' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
-	        $queryfurnitures = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $queryfurnitures = "SELECT DISTINCT i.feeflag, b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, bidding b 
 	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'furnitures' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
-	        $querybooks = "SELECT DISTINCT b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $querybooks = "SELECT DISTINCT i.feeflag, b.name, b.email, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, bidding b 
 	        WHERE b.successbid = '0' AND b.pendingstatus = '1' AND i.itemid = b.itemid AND i.type = 'books' AND i.itemid IN (SELECT i.itemid FROM item i WHERE i.email = '$email')"; 
 
@@ -76,6 +76,12 @@
 			
 			//fetch all tools
 			while ($row = pg_fetch_assoc($result_tools)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="tools">
 										<td>
 											
@@ -83,7 +89,7 @@
   										
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<div class="media">';
@@ -93,6 +99,12 @@
 				
 			} 
 			while ($row = pg_fetch_assoc($result_appliances)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="appliances">
 										<td>
 											
@@ -100,7 +112,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>										
 										<td>
 											<div class="media">';	
@@ -112,6 +124,12 @@
 			}
 			//fetch all furnitures
 			while ($row = pg_fetch_assoc($result_furnitures)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="furnitures">
 										<td>
 											
@@ -119,7 +137,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<div class="media">';	
@@ -131,13 +149,19 @@
 			}
 			//fetch all book
 			while ($row = pg_fetch_assoc($result_books)) {
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="books">
 										<td>
 											
   											<input name="winbids['.$row["email"].'][]" type="checkbox" value="'.$row["itemid"].'">
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 									
 										<td>
