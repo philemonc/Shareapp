@@ -44,19 +44,19 @@
 			$email = $_SESSION['email'];
 
 
-			$queryappliances = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+			$queryappliances = "SELECT DISTINCT i.feeflag, b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
 	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'appliances'"; 
 
-	        $querytools = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $querytools = "SELECT DISTINCT i.feeflag, b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
 	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'tools'"; 
 	        
-	        $queryfurnitures = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $queryfurnitures = "SELECT DISTINCT i.feeflag, b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
 	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'furnitures'"; 
 
-	        $querybooks = "SELECT DISTINCT b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
+	        $querybooks = "SELECT DISTINCT i.feeflag, b.pendingstatus, b.successbid, b.feeamount, i.itemname, i.availabledate, i.description, i.type, i.itemid 
 	        FROM item i, member m, bidding b 
 	        WHERE b.email = m.email AND m.email = '$email' AND i.itemid = b.itemid AND i.type = 'books'"; 
 
@@ -83,12 +83,18 @@
 					$message = "Bid Pending";
 					$buttontype = "warning";
 				} 
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="tools">
 										<td>
   											<button type = "button" class = "btn btn-'.$buttontype.'">'.$message.'</button>
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										<td>
 											<div class="media">
@@ -112,6 +118,12 @@
 					$message = "Bid Pending";
 					$buttontype = "warning";
 				}
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="appliances">
 										<td>
 												<!-- Toggle button between success and failure -->
@@ -119,7 +131,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										
 										<td>
@@ -145,6 +157,12 @@
 					$message = "Bid Pending";
 					$buttontype = "warning";
 				}
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="furnitures">
 										<td>
 											
@@ -152,7 +170,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										
 										<td>
@@ -178,6 +196,12 @@
 					$message = "Bid Pending";
 					$buttontype = "warning";
 				}
+				$msg = '';
+				if ($row["feeflag"] == 0) {
+					$msg = 'Free!';
+				} else {
+					$msg = $row["feeamount"];
+				}
 				echo '<tr data-status="books">
 
 										<td>
@@ -186,7 +210,7 @@
   											
 										</td>
 										<td>
-											<p><b>Bid: '.$row['feeamount'].'</b></p>
+											<p><b>Bid: '.$msg.'</b></p>
 										</td>
 										
 									
